@@ -3,7 +3,7 @@
 
 [![Tests](https://travis-ci.org/jpsca/jinja_markdown.svg)](https://travis-ci.org/jpsca/jinja_markdown/)
 
-A jinja2 extension that adds a `{% markdown %}` tag powered with (PyMdown Extensions)[https://facelessuser.github.io/pymdown-extensions/].
+A jinja2 extension that adds a `{% markdown %}` tag powered with [PyMdown Extensions](https://facelessuser.github.io/pymdown-extensions/).
 
 
 ## Installation
