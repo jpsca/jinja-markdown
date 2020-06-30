@@ -4,6 +4,10 @@ import markdown
 from jinja2.nodes import CallBlock
 from jinja2.ext import Extension
 
+from .version import __version__
+
+
+__all__ = ["EXTENSIONS", "MarkdownExtension", "__version__"]
 
 EXTENSIONS = [
     "admonition",
