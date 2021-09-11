@@ -1,13 +1,11 @@
 import textwrap
 
 import markdown
-from jinja2.nodes import CallBlock
 from jinja2.ext import Extension
+from jinja2.nodes import CallBlock
 
-from .version import __version__
 
-
-__all__ = ["EXTENSIONS", "MarkdownExtension", "__version__"]
+__all__ = ["EXTENSIONS", "MarkdownExtension"]
 
 EXTENSIONS = [
     "admonition",
@@ -31,7 +29,7 @@ EXTENSIONS = [
 
 
 class MarkdownExtension(Extension):
-    tags = set(['markdown'])
+    tags = set(["markdown"])
 
     def __init__(self, environment):
         super(MarkdownExtension, self).__init__(environment)
@@ -42,11 +40,11 @@ class MarkdownExtension(Extension):
     def parse(self, parser):
         lineno = next(parser.stream).lineno
         body = parser.parse_statements(
-            ['name:endmarkdown'],
+            ["name:endmarkdown"],
             drop_needle=True
         )
         return CallBlock(
-            self.call_method('_render_markdown'),
+            self.call_method("_render_markdown"),
             [],
             [],
             body

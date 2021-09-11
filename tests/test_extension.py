@@ -1,4 +1,5 @@
 from jinja2 import Environment
+
 from jinja_markdown import MarkdownExtension
 
 
@@ -8,7 +9,9 @@ SOURCE = """
     # Heading
     Regular text
 
-        code
+    ```python
+    pass
+    ```
     {% endmarkdown %}
 </article>
 """
@@ -17,7 +20,7 @@ EXPECTED = """
 <article>
     <h1>Heading</h1>
 <p>Regular text</p>
-<div class="codehilite"><pre><span></span><code><span class="err">code</span>
+<div class="highlight"><pre><span></span><code><span class="k">pass</span>
 </code></pre></div>
 </article>"""
 
