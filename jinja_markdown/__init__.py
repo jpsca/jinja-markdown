@@ -1,8 +1,14 @@
 import textwrap
+import typing as t
 
 import markdown
 from jinja2.ext import Extension
 from jinja2.nodes import CallBlock
+
+if t.TYPE_CHECKING:
+    from jinja2 import Environment
+    from jinja2.nodes import Node
+    from jinja2.parser import Parser
 
 
 __all__ = ["EXTENSIONS", "MarkdownExtension"]
@@ -31,16 +37,15 @@ EXTENSIONS = [
 class MarkdownExtension(Extension):
     tags = set(["markdown"])
 
-    def __init__(self, environment):
+    def __init__(self, environment: "Environment") -> None:
         super(MarkdownExtension, self).__init__(environment)
-        environment.extend(
-            markdowner=markdown.Markdown(extensions=EXTENSIONS)
-        )
+        self.markdowner = markdown.Markdown(extensions=EXTENSIONS)
+        environment.extend(markdowner=self.markdowner)
 
-    def parse(self, parser):
+    def parse(self, parser: "Parser") -> t.Union["Node", t.List["Node"]]:
         lineno = next(parser.stream).lineno
         body = parser.parse_statements(
-            ["name:endmarkdown"],
+            ("name:endmarkdown", ),
             drop_needle=True
         )
         return CallBlock(
@@ -50,10 +55,10 @@ class MarkdownExtension(Extension):
             body
         ).set_lineno(lineno)
 
-    def _render_markdown(self, caller):
+    def _render_markdown(self, caller: t.Callable) -> str:
         text = caller()
         text = self._dedent(text)
-        return self.environment.markdowner.convert(text)
+        return self.markdowner.convert(text)
 
-    def _dedent(self, text):
+    def _dedent(self, text: str) -> str:
         return textwrap.dedent(text.strip("\n"))
